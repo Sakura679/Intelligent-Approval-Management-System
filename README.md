@@ -189,9 +189,8 @@ pnpm >= 8
 ## 后端
 
 ```bash
-JDK >= 17
-MySQL >= 8
-Redis >= 6
+JDK = 11
+MySQL = 8
 ```
 
 ---
@@ -206,14 +205,18 @@ pnpm install
 pnpm dev
 ```
 
----
-
 ## 后端启动
 
 ```bash
 mvn clean install
 
 mvn spring-boot:run
+```
+
+## ai服务端启动
+
+```bash
+uv run uvicorn app.main:app --port 8000
 ```
 
 ---
@@ -237,29 +240,5 @@ mvn spring-boot:run
 * 模块化设计
 * 可扩展性强
 
----
-
-你现在这个 README 已经有：
-
-* 项目名称
-* 技术栈
-* 项目结构
-
-下一步建议你继续补：
-
-## 推荐补充顺序
-
-```text
-1. 项目简介
-2. 技术架构
-3. 功能模块
-4. 系统流程图
-5. 启动方式
-6. AI 模块说明
-7. 后端结构
-8. 数据库设计
-```
-
-这样基本就是一个完整的标准项目文档了。
 
 
