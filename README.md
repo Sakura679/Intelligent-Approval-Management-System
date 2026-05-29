@@ -123,9 +123,10 @@ LangChain AI 服务
 
 ---
 
-# 5. 前端项目结构
+# 5. 项目结构
 
 ```bash
+前端
 src
 ├── api                 # 请求 api
 ├── assets              # 静态资源
@@ -140,6 +141,59 @@ src
 │   └── work_order      # 工单模块
 ├── App.vue             # 根组件
 └── main.js             # 项目入口
+```
+
+```bash
+后端
+
+```
+
+```bash
+ai服务端
+app
+├── agents                  # Agent 智能体
+│   └── default_agent.py
+│
+├── api                     # 接口层
+│   └── v1
+│       └── chat_api.py
+│
+├── config                  # 配置文件
+│   └── config.yaml
+│
+├── context                 # 上下文管理
+│   └── context_handler.py
+│
+├── core                    # 核心模块
+│   └── security.py
+│
+├── middleware              # 中间件
+│   └── agent_middleware.py
+│
+├── resources               # 资源文件
+│   ├── prompt              # Prompt 模板
+│   │   └── default_sys_prompt.txt
+│   └── schema
+│
+├── schemas                 # 数据模型
+│   └── chat_param.py
+│
+├── tools                   # Agent 工具
+│   └── agent_tool.py
+│
+├── utils                   # 工具类
+│   ├── beanFactory_handler.py
+│   ├── configfile_handler.py
+│   ├── logger_handler.py
+│   ├── path_handler.py
+│   └── prompt_handler.py
+│
+├── main.py                 # 项目启动入口
+│
+├── .env                    # 环境变量
+├── pyproject.toml          # Python 项目配置
+├── uv.lock                 # uv 依赖锁
+└── README.md
 ```
 
 ---
