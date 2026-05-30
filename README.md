@@ -145,7 +145,43 @@ src
 
 ```bash
 后端
-
+backend-java
+├── src.main
+│   ├── java.com.iams
+│   │   │
+│   │   ├── annotations          # 自定义注解
+│   │   │   └── AutoFilled.java
+│   │   │
+│   │   ├── aop                  # AOP切面
+│   │   │   └── DbDateTimeAop.java
+│   │   │
+│   │   ├── config               # 系统配置
+│   │   │   ├── FlowableConfig.java
+│   │   │   ├── MybatisConfig.java
+│   │   │   ├── RestTemplateConfig.java
+│   │   │   ├── SecurityConfig.java
+│   │   │   ├── SwaggerConfig.java
+│   │   │   └── WebMvcConfig.java
+│   │   │
+│   │   ├── context              # 用户上下文
+│   │   │   └── UserContext.java
+│   │   │
+│   │   ├── controller           # 控制层
+│   │   ├── enums                # 枚举定义
+│   │   ├── interceptors         # 请求拦截器
+│   │   ├── json                 # Jackson配置
+│   │   ├── mapper               # Mapper层
+│   │   ├── params               # 请求参数对象
+│   │   ├── pojo                 # 实体对象
+│   │   ├── service              # 业务逻辑层
+│   │   ├── utils                # 工具类
+│   │   ├── vo                   # 返回对象
+│   │   │
+│   │   └── IamsApplication.java
+│   │
+│   └── resources
+│
+└── pom.xml
 ```
 
 ```bash
