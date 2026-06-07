@@ -1,0 +1,13 @@
+model:
+  name: "qwen3-max"
+  provider: "openai"
+  base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+
+embedding:
+  model: "text-embedding-v4"
+
+agent:
+  checkpoint: "app/resources/schema/ai-service.db"
+
+prompt:
+  sys: "resources/prompt/default_sys_prompt.txt"
