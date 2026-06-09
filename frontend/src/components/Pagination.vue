@@ -6,11 +6,11 @@ const props = defineProps({
   },
   total: {
     type: Number,
-    default: 0,
+    default: () => 0,
   },
   layout: {
     type: String,
-    default: "prev, pager, next",
+    default: () => "prev, pager, next",
   },
 })
 </script>

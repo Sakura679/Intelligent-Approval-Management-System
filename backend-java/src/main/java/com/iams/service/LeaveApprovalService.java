@@ -7,6 +7,7 @@ import com.iams.utils.PageResult;
 import com.iams.utils.Result;
 import com.iams.vo.LeaveApprovalVO;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -57,4 +58,11 @@ public interface LeaveApprovalService extends IService<LeaveApproval> {
      * @Desc: 审批统计
      */
     Result<Map<String, Object>> approvalStatistics();
+
+    /**
+     * @Author: 放学后海堤日记
+     * @Date: 2026/5/14 11:18
+     * @Desc: 流程跟踪
+     */
+    void trace(Long businessId, HttpServletResponse response);
 }

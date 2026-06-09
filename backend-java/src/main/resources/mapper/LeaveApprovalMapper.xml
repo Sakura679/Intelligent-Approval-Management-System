@@ -63,6 +63,7 @@
         <if test="param.title != null and param.title != ''">
             and a.title like concat('%', #{param.title}, '%')
         </if>
+        order by a.create_time desc
     </sql>
     <select id="getProcessList" resultType="com.iams.vo.LeaveApprovalVO">
         <include refid="selectList"></include>

@@ -1,7 +1,8 @@
 <script setup>
-import { leaveApprovalPageListApi } from "@/api/approval"
+import { leaveApprovalPageListApi, traceApi } from "@/api/approval"
 import dayjs from "dayjs"
-import { reactive, ref } from "vue"
+import { ref } from "vue"
+import { useUserStore } from "@/stores/user"
 
 const tableData = ref([])
 const tableDataColumns = ref([
@@ -11,18 +12,22 @@ const tableDataColumns = ref([
   { label: "创建时间", prop: "createTime" },
 ])
 const totalData = ref(0)
-const param = reactive({
+const param = ref({
   pageNum: 1,
   pageSize: 10,
 })
 
 const initPageData = async () => {
   try {
-    if (param.dateRange) {
-      param.createTimeMin = dayjs(param.dateRange[0]).format("YYYY-MM-DD HH:mm:ss")
-      param.createTimeMax = dayjs(param.dateRange[1]).format("YYYY-MM-DD HH:mm:ss")
+    if (param.value.dateRange) {
+      param.value.createTimeMin = dayjs(param.value.dateRange[0]).format(
+        "YYYY-MM-DD HH:mm:ss",
+      )
+      param.value.createTimeMax = dayjs(param.value.dateRange[1]).format(
+        "YYYY-MM-DD HH:mm:ss",
+      )
     }
-    let res = await leaveApprovalPageListApi(param)
+    let res = await leaveApprovalPageListApi(param.value)
 
     if (res.code === 200) {
       tableData.value = res.data
@@ -36,7 +41,7 @@ const initPageData = async () => {
 }
 initPageData()
 
-const centerDialogVisible = ref(false)
+const isShowDialogFormBox = ref(false)
 const detailData = ref({})
 const dialogFormColumns = ref([
   { label: "标题", prop: "title", readonly: true },
@@ -53,6 +58,8 @@ const dialogFormColumns = ref([
     autosize: { minRows: 5, maxRows: 5 },
   },
 ])
+const imageUrl = ref("")
+const isShowDialogImgBox = ref(false)
 
 const handleWatch = (row) => {
   // console.log(row)
@@ -67,7 +74,22 @@ const handleWatch = (row) => {
     reason: row.reason,
     dateRange: row.startTime + " - " + row.endTime,
   }
-  centerDialogVisible.value = true
+  isShowDialogFormBox.value = true
+}
+
+const toTrace = async (row) => {
+  try {
+    let userStore = useUserStore()
+    const token = userStore.token
+    const response = await traceApi(row.id, token)
+
+    let blob = await response.blob()
+    imageUrl.value = URL.createObjectURL(blob)
+
+    isShowDialogImgBox.value = true
+  } catch (error) {
+    ElMessage.error(error.message)
+  }
 }
 
 const onDialogClose = () => {
@@ -76,7 +98,7 @@ const onDialogClose = () => {
 
 const onPaginationChange = (page) => {
   tableData.value = []
-  param.pageNum = page
+  param.value.pageNum = page
 
   initPageData()
 }
@@ -96,7 +118,7 @@ const onPaginationChange = (page) => {
           <el-form-item label="类型">
             <el-select v-model="param.typeId" placeholder="请选择">
               <el-option label="请假" :value="1"></el-option>
-              <el-option label="报销" :value="2"></el-option>
+              <!-- <el-option label="报销" :value="2"></el-option> -->
             </el-select>
           </el-form-item>
         </div>
@@ -144,6 +166,14 @@ const onPaginationChange = (page) => {
             <el-button size="small" @click="handleWatch(scope.row)">
               查看
             </el-button>
+
+            <el-button
+              v-if="scope.row.status != '通过'"
+              size="small"
+              @click="toTrace(scope.row)"
+            >
+              进度
+            </el-button>
           </template>
         </iams-table>
       </div>
@@ -157,11 +187,19 @@ const onPaginationChange = (page) => {
 
       <div class="dialog-form-box">
         <dialog-form
-          v-model:isShow="centerDialogVisible"
+          v-model:isShow="isShowDialogFormBox"
           v-model:data="detailData"
           :dataColumns="dialogFormColumns"
           :onClose="onDialogClose"
         ></dialog-form>
+      </div>
+
+      <div class="dialog-img-box">
+        <el-dialog v-model="isShowDialogImgBox" width="800" align-center>
+          <div class="img-container">
+            <img class="full-image" :src="imageUrl" alt="流程追踪图" />
+          </div>
+        </el-dialog>
       </div>
     </div>
   </div>
@@ -184,6 +222,24 @@ const onPaginationChange = (page) => {
       > div {
         width: 25%;
         margin-right: 20px;
+      }
+    }
+
+    .dialog-img-box {
+      .img-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .full-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain; /* 保证图像完整显示，不裁剪 */
+        // 若需“拉伸填充”则用：object-fit: cover;
       }
     }
   }

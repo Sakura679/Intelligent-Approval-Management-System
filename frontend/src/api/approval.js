@@ -16,7 +16,18 @@ export const approveLeaveApi = (data) => {
   return request.post('/api/v1/approval/approve/leave', data)
 }
 
-export const approvalStatistics = () => {
+export const approvalStatisticsApi = () => {
   return request.get('/api/v1/approval/statistics')
+}
+
+export const traceApi = (businessId, token) => {
+  return fetch(
+      `/api/v1/approval/trace?businessId=${businessId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
 }
 

@@ -14,6 +14,7 @@ import com.iams.mapper.UserMapper;
 import com.iams.params.LeaveApprovalParam;
 import com.iams.pojo.LeaveApproval;
 import com.iams.pojo.User;
+import com.iams.service.HighlightService;
 import com.iams.service.LeaveApprovalService;
 import com.iams.utils.PageResult;
 import com.iams.utils.Result;
@@ -28,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -57,6 +59,9 @@ public class LeaveApprovalServiceImpl extends ServiceImpl<LeaveApprovalMapper, L
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private HighlightService highlightService;
 
     private static final String PROCESS_DEFINITION_KEY = "leave-approval";
 
@@ -220,6 +225,22 @@ public class LeaveApprovalServiceImpl extends ServiceImpl<LeaveApprovalMapper, L
         result.put("month", monthStats);
 
         return Result.success(result);
+    }
+
+    /**
+     * @Author: 放学后海堤日记
+     * @Date: 2026/5/14 11:18
+     * @Desc: 流程跟踪
+     */
+    @Override
+    public void trace(Long businessId, HttpServletResponse response) {
+        Task task = taskService.createTaskQuery()
+                .processVariableValueEquals("businessId", businessId)
+                .singleResult();
+
+        highlightService.getHighlight(task, response);
+
+        log.warn("流程跟踪");
     }
 
     private String getProcessDefinitionId() {

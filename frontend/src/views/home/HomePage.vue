@@ -1,5 +1,5 @@
 <script setup>
-import { approvalStatistics, leaveApprovalPageListApi } from "@/api/approval"
+import { approvalStatisticsApi, leaveApprovalPageListApi } from "@/api/approval"
 import echarts from "@/utils/echarts"
 import { PieChart } from "echarts/charts"
 import { onMounted, ref } from "vue"
@@ -58,7 +58,7 @@ const option = ref({
 const initPageData = async () => {
   try {
     // 获取统计数据
-    let res = await approvalStatistics()
+    let res = await approvalStatisticsApi()
 
     if (res.code == 200) {
       dayStatistics.value = res.data.day

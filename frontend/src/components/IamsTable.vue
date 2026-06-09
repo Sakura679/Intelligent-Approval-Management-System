@@ -3,7 +3,7 @@ import { ref } from "vue"
 
 const tableData = defineModel("data", {
   type: Array,
-  default: ref([]),
+  default: () => [],
 })
 
 const props = defineProps({
@@ -13,7 +13,7 @@ const props = defineProps({
   },
   useLastColumn: {
     type: Boolean,
-    default: false,
+    default: () => false,
   },
 })
 </script>

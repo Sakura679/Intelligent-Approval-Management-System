@@ -1,11 +1,11 @@
 <script setup>
 const detailData = defineModel("data", {
   type: Object,
-  default: {},
+  default: () => {},
 })
 const isShow = defineModel("isShow", {
   type: Boolean,
-  default: false,
+  default: () => false,
 })
 
 const props = defineProps({
@@ -19,11 +19,11 @@ const props = defineProps({
   },
   width: {
     type: Number,
-    default: 500,
+    default: () => 500,
   },
   useButton: {
     type: Boolean,
-    default: false,
+    default: () => false,
   },
 })
 </script>
